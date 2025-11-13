@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 import { ServerManager } from "./application/services/ServerManager.js";
 import { Config } from "./infrastructure/config/Config.js";
 import { HttpTransport } from "./infrastructure/transport/HttpTransport.js";

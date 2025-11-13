@@ -73,19 +73,24 @@ export class HttpTransport implements ITransport {
           }
         };
 
-        // Get API key from headers
-        const nuclinoApiKey = req.headers['nuclino-api-key'] as string;
+        // Get API key from headers or environment variable
+        const nuclinoApiKey = (req.headers['nuclino-api-key'] as string) || process.env.NUCLINO_API_KEY;
+        const apiKeySource = req.headers['nuclino-api-key'] ? 'header' : 'environment variable';
+        
         if (!nuclinoApiKey) {
+          logger.error('Nuclino API key not provided in header or environment variable');
           res.status(400).json({
             jsonrpc: '2.0',
             error: {
               code: -32000,
-              message: 'Bad Request: Nuclino API key is required',
+              message: 'Bad Request: Nuclino API key must be provided either via nuclino-api-key header or NUCLINO_API_KEY environment variable',
             },
             id: null,
           });
           return;
         }
+        
+        logger.info(`API key provided via ${apiKeySource}`);
 
         // Create server for this session
         const server = this.createMcpServer(nuclinoApiKey);

@@ -18,7 +18,7 @@ This server supports two transport types:
 ### HTTP Transport (Default)
 - Best for web applications and remote access
 - Supports multiple concurrent sessions
-- Requires API key to be sent in headers for each request
+- Flexible authentication: API key via headers or environment variable
 - Runs on port 3000 by default
 
 ### Stdio Transport
@@ -39,9 +39,32 @@ npm install
 
 - `TRANSPORT_TYPE`: Set to 'http' (default) or 'stdio'
 - `PORT`: Port for HTTP transport (default: 3000)
-- `NUCLINO_API_KEY`: Required for stdio transport only
+- `NUCLINO_API_KEY`: Required for stdio transport; optional for HTTP transport (can be provided via header instead)
 
 ### HTTP Transport
+
+The HTTP transport supports two authentication methods:
+
+#### Option 1: Environment Variable (Shared API Key)
+Best for development or when deploying a central server that all sessions share.
+
+1. Create a `.env` file (copy from `.env.example`):
+```bash
+NUCLINO_API_KEY=your_api_key_here
+TRANSPORT_TYPE=http
+PORT=3000
+```
+
+2. Start the server:
+```bash
+npm run dev  # Development
+npm run start  # Production
+```
+
+3. Connect to the server at `http://localhost:3000/mcp` (no header required)
+
+#### Option 2: Header-Based (Per-Session API Key)
+Best when different clients need to use different API keys.
 
 1. Start the server:
 ```bash
@@ -52,6 +75,8 @@ npm run start  # Production
 2. Connect to the server at `http://localhost:3000/mcp`
 
 3. Include your Nuclino API key in the `nuclino-api-key` header with each request.
+
+**Note:** Header-based authentication takes precedence over environment variable. If both are provided, the header value will be used.
 
 ### Stdio Transport
 

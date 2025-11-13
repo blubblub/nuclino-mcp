@@ -1,11 +1,11 @@
 {
 	"mcpServers": {
 		"nuclino": {
-			"_description": "Customnuclino mcp server - streamable HTTP server for Nuclino integration",
+			"_description": "Custom nuclino mcp server - streamable HTTP server for Nuclino integration. API key can be provided via header (shown below) or NUCLINO_API_KEY environment variable in the server.",
 			"url": "http://localhost:3000/mcp",
 			"type": "http",
 			"headers": {
-				"nuclino-api-key": "your-api-key-here"
+				"nuclino-api-key": "your-api-key-here (optional if NUCLINO_API_KEY is set in server environment)"
             }
         },
         "nuclino-stdio": {
