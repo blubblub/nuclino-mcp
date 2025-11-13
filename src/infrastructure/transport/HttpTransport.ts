@@ -26,6 +26,7 @@ export class HttpTransport implements ITransport {
       origin: '*',
       methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'mcp-session-id', 'mcp-protocol-version', 'nuclino-api-key'],
+      exposedHeaders: ['mcp-session-id'],
       credentials: false
     };
     this.app.use(cors(corsOptions));
